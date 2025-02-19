@@ -14,6 +14,15 @@ app.post("/register-user", (req: Request, res: Response) => {
 
   res.send("executed");
 });
+
+app.post("/create-post", (req: Request, res: Response) => {
+  const userService = new UserService(prisma);
+  console.log(req.body);
+  const result = userService.addUser(req.body.userData, req.body.authData);
+
+  res.send("executed");
+});
+
 app.get("/test", (req: Request, res: Response) => {
   res.send("Hello, TypeScript Express! test");
 });
