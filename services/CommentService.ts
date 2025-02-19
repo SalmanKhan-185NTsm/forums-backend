@@ -54,6 +54,18 @@ export default class CommentService {
       return { response: null, error };
     }
   }
+  async getCommentsForPost(data: { postId: string }) {
+    try {
+      const result = await this.prisma.Comments.findMany({
+        where: { postsPostId: data.postId },
+      });
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
+  }
 
   // async updateComment(data: { postId: string; usersId: string; post: Post }) {
   //   try {
