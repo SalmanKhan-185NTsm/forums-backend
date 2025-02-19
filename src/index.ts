@@ -206,6 +206,28 @@ app.post("/new-comment", async (req: Request, res: Response) => {
   }
 });
 
+app.delete("/delete-comment", async (req: Request, res: Response) => {
+  try {
+    console.log(req.body);
+    const result = await commentService.deleteComment(req.body);
+    if (result.response !== null) {
+      res
+        .status(200)
+        .json({ message: "success", status: 200, data: result.response });
+    } else {
+      res.status(500).json({
+        message: "An Error occured,",
+        error: result,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error.",
+      status: 500,
+      error: error,
+    });
+  }
+});
 app.get("/test", (req: Request, res: Response) => {
   res.send("Hello, TypeScript Express! test");
 });

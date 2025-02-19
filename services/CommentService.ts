@@ -42,10 +42,10 @@ export default class CommentService {
       return { response: null, error };
     }
   }
-  async deleteComment(data: { id: string; userId: string }) {
+  async deleteComment(data: { commentId: string; userId: string }) {
     try {
       const result = await this.prisma.Comments.delete({
-        where: { id: data.id, commentedByUserId: data.userId },
+        where: { id: data.commentId, usersId: data.userId },
       });
       console.log(result);
       return { response: result };
