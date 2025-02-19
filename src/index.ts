@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from 'cors';
 import { PrismaClient } from "@prisma/client";
 import UserService from "../services/UserService";
 import PostService from "../services/PostService";
@@ -12,7 +13,17 @@ const userService = new UserService(prisma);
 const postService = new PostService(prisma);
 const commentService = new CommentService(prisma);
 
-// app.use(cors());
+// Configure CORS options
+const corsOptions = {
+  origin: "*", // Allow all origins; for specific origins, replace '*' with an array of origins
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+};
+
+// Enable CORS with the specified options
+app.use(cors(corsOptions));
+app.use(express.json()); // Parses JSON request bodies
+app.use(express.urlencoded({ extended: true })); // Parses urlencoded request bodies
 
 app.post("/register-user", async (req: Request, res: Response) => {
   try {
