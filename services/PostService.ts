@@ -20,7 +20,7 @@ interface Post {
 // postedByUserId Users       @relation(fields: [usersId], references: [id], onDelete: Cascade)
 // usersId        String
 // Questions      Questions[]
-export default class PostsService {
+export default class PostService {
   prisma: any;
   constructor(prisma: any) {
     this.prisma = prisma;
@@ -44,7 +44,45 @@ export default class PostsService {
       return { response: null, error };
     }
   }
-  async deletePosts<T>(data: T) {}
-  async findPostsById<T>(data: T) {}
-  async updatePostsById<T>(data: T) {}
+  async deletePost(data: { postId: string }) {
+    try {
+      const result = await this.prisma.Posts.delete({
+        where: { postId: data.postId },
+      });
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
+  }
+  async findPostsByUserId(data: { usersId: string }) {
+    try {
+      const result = await this.prisma.Posts.findMany({
+        where: { usersId: data.usersId },
+      });
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
+  }
+  async updatePostsById(data: { postId: string; usersId: string; post: Post }) {
+    try {
+      const result = await this.prisma.Posts.update({
+        where: { postId: data.postId, usersId: data.usersId },
+        data: {
+          title: data.post.title,
+          description: data.post.description,
+          tags: data.post.tags,
+        },
+      });
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
+  }
 }
