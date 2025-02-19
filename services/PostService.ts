@@ -85,4 +85,14 @@ export default class PostService {
       return { response: null, error };
     }
   }
+  async fetchAllPosts() {
+    try {
+      const result = await this.prisma.Posts.findMany({});
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
+  }
 }

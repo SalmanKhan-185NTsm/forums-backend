@@ -66,3 +66,15 @@ DELETE http://localhost:3001/delete-post
     "usersId": "32d4ad7e-5e73-48f5-920a-1c60f7a33c3e",
     "postId": "240dc3bd-d4fe-495e-83fa-f8ceef657209"
 }
+
+
+##
+POST http://localhost:3001/new-comment
+{
+    "userId": "32d4ad7e-5e73-48f5-920a-1c60f7a33c3e",
+    "postId": "c0f0ec28-4b83-4122-aab8-335fd84845a6",
+    "content":"test comment"
+}
+
+##
+GET http://localhost:3001/fetch-posts
