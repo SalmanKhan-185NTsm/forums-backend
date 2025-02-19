@@ -24,7 +24,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json()); // Parses JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parses urlencoded request bodies
-
 app.post("/register-user", async (req: Request, res: Response) => {
   try {
     const result = await userService.addUser(
