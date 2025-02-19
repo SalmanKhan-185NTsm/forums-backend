@@ -7,48 +7,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                Int     @id @default(autoincrement())
-  userId            Int
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
+model Users {
+  id            String         @id @default(uuid())
+  username      String         @db.VarChar(250)
+  email         String         @unique @db.VarChar(250)
+  createdAt     DateTime       @default(now())
+  lastUpdatedAt DateTime       @updatedAt
+  Posts         Posts[]
+  AuthProvider  AuthProvider[]
+  Questions     Questions[]
+  Comments      Comments[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  userId    Int
-  User      User     @relation(fields: [userId], references: [id])
+model AuthProvider {
+  id             String   @id @default(uuid())
+  authProvidedBy String   @db.VarChar(250)
+  token          String   @db.VarChar(1000)
+  createdAt      DateTime @default(now())
+  lastUpdatedAt  DateTime @updatedAt
+  authForUserId  Users    @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId        String
 }
 
-model Session {
-  id           Int      @id @default(autoincrement())
-  sessionToken String   @unique
-  userId       Int
-  expires      DateTime
-  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Posts {
+  postId         String      @id @default(uuid())
+  title          String      @db.VarChar(250)
+  description    String      @db.Text
+  tags           Json        @db.JsonB
+  createdAt      DateTime    @default(now())
+  lastUpdatedAt  DateTime    @updatedAt
+  postedByUserId Users       @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId        String
+  Questions      Questions[]
 }
 
-model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  Account       Account[]
-  Post          Post[]
-  Session       Session[]
+model Questions {
+  id            String    @id @default(uuid())
+  askedByUserId Users     @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId       String
+  postId        Posts     @relation(fields: [postsPostId], references: [postId], onDelete: Cascade)
+  postsPostId   String
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  lastUpdatedAt DateTime  @updatedAt
+  Answers       Answers[]
+}
+
+model Answers {
+  id            String    @id @default(uuid())
+  questionId    Questions @relation(fields: [questionsId], references: [id], onDelete: Cascade)
+  questionsId   String
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  lastUpdatedAt DateTime  @updatedAt
+}
+
+model Comments {
+  id                String   @id @default(uuid())
+  content           String   @db.Text
+  commentedByUserId Users    @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  lastUpdatedAt     DateTime @updatedAt
+  usersId           String
 }
