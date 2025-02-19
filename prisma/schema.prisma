@@ -33,7 +33,7 @@ model Posts {
   postId         String      @id @default(uuid())
   title          String      @db.VarChar(250)
   description    String      @db.Text
-  tags           Json        @db.JsonB
+  tags           Json?        @db.JsonB
   createdAt      DateTime    @default(now())
   lastUpdatedAt  DateTime    @updatedAt
   postedByUserId Users       @relation(fields: [usersId], references: [id], onDelete: Cascade)
