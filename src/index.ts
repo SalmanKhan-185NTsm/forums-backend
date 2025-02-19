@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import cors from 'cors';
+import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import UserService from "../services/UserService";
 import PostService from "../services/PostService";
@@ -35,7 +35,7 @@ app.post("/register-user", async (req: Request, res: Response) => {
     if (result.response !== null) {
       res
         .status(200)
-        .json({ message: "Successfully Registered", status: 200, result });
+        .json({ message: "success", status: 200, data: result.response[0] });
     } else {
       res.status(500).json({
         message: "An Error occured,",

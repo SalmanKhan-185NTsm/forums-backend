@@ -15,6 +15,16 @@ export default class UserService {
   }
   async addUser(userData: Users, authData: AuthData) {
     try {
+      const userDetails = await this.prisma.Users.findMany({
+        where: {
+          email: userData.email,
+        },
+      });
+      console.log(userDetails);
+
+      if (userDetails.length > 0) {
+        return { response: userDetails };
+      }
       const user = await this.prisma.Users.create({
         data: {
           username: userData.username,
@@ -28,7 +38,7 @@ export default class UserService {
         },
       });
       console.log("Created user:", user);
-      return { response: user };
+      return { response: [user] };
     } catch (error) {
       console.error(error);
       return { response: null, error };
