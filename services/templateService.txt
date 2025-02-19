@@ -3,10 +3,10 @@ export default class TemplateService {
     constructor(prisma: any) {
       this.prisma = prisma;
     }
-    addTemplate<T>(data: T) {}
-    deleteTemplate<T>(data: T) {}
-    findTemplateById<T>(data: T) {}
-    updateTemplateById<T>(data: T) {}
+    async addTemplate<T>(data: T) {}
+    async deleteTemplate<T>(data: T) {}
+    async findTemplateById<T>(data: T) {}
+    async updateTemplateById<T>(data: T) {}
   }
   
 

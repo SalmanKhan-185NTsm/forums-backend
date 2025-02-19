@@ -28,28 +28,43 @@ export default class UserService {
         },
       });
       console.log("Created user:", user);
-      return;
+      return { response: user };
     } catch (error) {
       console.error(error);
-      return;
+      return { response: null, error };
     }
   }
   async deleteUser({ id }: { id: string }) {
-    const result = await this.prisma.Users.delete({ id: id });
-    console.log(result);
-    return result;
+    console.log(id);
+    try {
+      const result = await this.prisma.Users.delete({
+        where: { id: id },
+      });
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
   }
   async getAllUsers() {
     try {
-      const users = await this.prisma.Users.findMany({});
-      console.log(users);
+      const result = await this.prisma.Users.findMany({});
+      console.log(result);
+      return { response: result };
     } catch (error) {
       console.error(error);
+      return { response: null, error };
     }
   }
   async deleteAllUsers() {
-    const result = await this.prisma.Users.deleteMany({});
-    console.log(result);
-    return result;
+    try {
+      const result = await this.prisma.Users.deleteMany({});
+      console.log(result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
   }
 }

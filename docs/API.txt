@@ -1,0 +1,17 @@
+POST http://localhost:3001/register-user
+{
+    "userData": {
+        "username": "salman",
+        "email": "salmankhans185@gmail.com"
+    },
+    "authData": {
+        "authProvidedBy": "github",
+        "token": "asdjasoidjed8j902"
+    }
+}
+
+###
+POST http://localhost:3001/delete-user
+{
+    "userId": "3d7c6b2c-84e5-47e5-ac04-e8c50518e19a"
+}
