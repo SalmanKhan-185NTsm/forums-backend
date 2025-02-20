@@ -45,10 +45,10 @@ export default class PostService {
     }
   }
 
-  async deletePost(data: { postId: string }) {
+  async deletePost(data: { postId: string; userId: string }) {
     try {
       const result = await this.prisma.Posts.delete({
-        where: { postId: data.postId },
+        where: { postId: data.postId, usersId: data.userId },
       });
       console.log(result);
       return { response: result };

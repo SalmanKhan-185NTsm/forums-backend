@@ -159,6 +159,27 @@ app.post("/get-posts-by-user-id", async (req: Request, res: Response) => {
   }
 });
 
+app.delete("/delete-post-by-id", async (req: Request, res: Response) => {
+  try {
+    const result = await postService.deletePost(req.body);
+    if (result.response !== null) {
+      res
+        .status(200)
+        .json({ message: "success", status: 200, data: result.response });
+    } else {
+      res.status(500).json({
+        message: "An Error occured,",
+        error: result,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error.",
+      status: 500,
+      error: error,
+    });
+  }
+});
 
 app.post("/get-posts-details", async (req: Request, res: Response) => {
   try {
