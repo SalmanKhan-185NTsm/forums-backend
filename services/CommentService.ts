@@ -58,6 +58,18 @@ export default class CommentService {
     try {
       const result = await this.prisma.Comments.findMany({
         where: { postsPostId: data.postId },
+        select: {
+          id: true,
+          createdAt: true,
+          content: true,
+          commentedByUserId: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+        },
       });
       console.log(result);
       return { response: result };

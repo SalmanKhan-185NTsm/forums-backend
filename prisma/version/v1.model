@@ -15,6 +15,7 @@ model Users {
   lastUpdatedAt DateTime       @updatedAt
   Posts         Posts[]
   AuthProvider  AuthProvider[]
+  Questions     Questions[]
   Comments      Comments[]
 }
 
@@ -37,8 +38,31 @@ model Posts {
   lastUpdatedAt  DateTime    @updatedAt
   postedByUserId Users       @relation(fields: [usersId], references: [id], onDelete: Cascade)
   usersId        String
+  Questions      Questions[]
   Comments       Comments[]
 }
+
+model Questions {
+  id            String    @id @default(uuid())
+  askedByUserId Users     @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId       String
+  postId        Posts     @relation(fields: [postsPostId], references: [postId], onDelete: Cascade)
+  postsPostId   String
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  lastUpdatedAt DateTime  @updatedAt
+  Answers       Answers[]
+}
+
+model Answers {
+  id            String    @id @default(uuid())
+  questionId    Questions @relation(fields: [questionsId], references: [id], onDelete: Cascade)
+  questionsId   String
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  lastUpdatedAt DateTime  @updatedAt
+}
+
 model Comments {
   id                String   @id @default(uuid())
   content           String   @db.Text
@@ -46,6 +70,6 @@ model Comments {
   createdAt         DateTime @default(now())
   lastUpdatedAt     DateTime @updatedAt
   usersId           String
-  postId            Posts    @relation(fields: [postsPostId], references: [postId], onDelete: Cascade)
+  postId            Posts    @relation(fields: [postsPostId], references: [postId])
   postsPostId       String
 }
