@@ -44,6 +44,7 @@ export default class PostService {
       return { response: null, error };
     }
   }
+
   async deletePost(data: { postId: string }) {
     try {
       const result = await this.prisma.Posts.delete({
@@ -62,6 +63,36 @@ export default class PostService {
       const result = await this.prisma.Posts.findMany({
         where: {
           usersId: data.userId,
+        },
+        select: {
+          postId: true,
+          title: true,
+          description: true,
+          tags: true,
+          createdAt: true,
+          postedByUserId: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+        },
+      });
+
+      console.log("find records by id is ,", result);
+      return { response: result };
+    } catch (error) {
+      console.error(error);
+      return { response: null, error };
+    }
+  }
+  async findPostById(data: { postId: string }) {
+    try {
+      console.log(data);
+      const result = await this.prisma.Posts.findUnique({
+        where: {
+          postId: data.postId,
         },
         select: {
           postId: true,
