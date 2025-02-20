@@ -49,7 +49,7 @@ POST http://localhost:3001/update-post
             }
         ]
     },
-    "usersId": "32d4ad7e-5e73-48f5-920a-1c60f7a33c3e",
+    "userId": "32d4ad7e-5e73-48f5-920a-1c60f7a33c3e",
     "postId": "240dc3bd-d4fe-495e-83fa-f8ceef657209"
 }
 
@@ -63,7 +63,7 @@ POST http://localhost:3001/get-posts-by-user-id
 DELETE http://localhost:3001/delete-post
 
 {
-    "usersId": "32d4ad7e-5e73-48f5-920a-1c60f7a33c3e",
+    "userId": "32d4ad7e-5e73-48f5-920a-1c60f7a33c3e",
     "postId": "240dc3bd-d4fe-495e-83fa-f8ceef657209"
 }
 

@@ -56,22 +56,40 @@ export default class PostService {
       return { response: null, error };
     }
   }
-  async findPostsByUserId(data: { usersId: string }) {
+  async findPostsByUserId(data: { userId: string }) {
     try {
+      console.log(data);
       const result = await this.prisma.Posts.findMany({
-        where: { usersId: data.usersId },
+        where: {
+          usersId: data.userId,
+        },
+        select: {
+          postId: true,
+          title: true,
+          description:true,
+          tags:true,
+          createdAt:true,
+          postedByUserId: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+        },
       });
-      console.log(result);
+
+      console.log("find records by id is ,", result);
       return { response: result };
     } catch (error) {
       console.error(error);
       return { response: null, error };
     }
   }
-  async updatePostsById(data: { postId: string; usersId: string; post: Post }) {
+  async updatePostsById(data: { postId: string; userId: string; post: Post }) {
     try {
       const result = await this.prisma.Posts.update({
-        where: { postId: data.postId, usersId: data.usersId },
+        where: { postId: data.postId, usersId: data.userId },
         data: {
           title: data.post.title,
           description: data.post.description,
@@ -88,6 +106,7 @@ export default class PostService {
   async fetchAllPosts() {
     try {
       const result = await this.prisma.Posts.findMany({});
+
       console.log(result);
       return { response: result };
     } catch (error) {

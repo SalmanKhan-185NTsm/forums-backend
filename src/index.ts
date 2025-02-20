@@ -30,7 +30,6 @@ app.post("/register-user", async (req: Request, res: Response) => {
       req.body.userData,
       req.body.authData
     );
-    console.log(result);
 
     if (result.response !== null) {
       res
@@ -184,7 +183,6 @@ app.put("/update-post", async (req: Request, res: Response) => {
 
 app.post("/new-comment", async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const result = await commentService.addComment(req.body);
     if (result.response !== null) {
       res
@@ -207,7 +205,6 @@ app.post("/new-comment", async (req: Request, res: Response) => {
 
 app.delete("/delete-comment", async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const result = await commentService.deleteComment(req.body);
     if (result.response !== null) {
       res
@@ -229,7 +226,6 @@ app.delete("/delete-comment", async (req: Request, res: Response) => {
 });
 app.post("/get-comments-for-post", async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const result = await commentService.getCommentsForPost(req.body);
     if (result.response !== null) {
       res
