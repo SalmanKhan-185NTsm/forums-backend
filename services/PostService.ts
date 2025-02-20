@@ -66,9 +66,9 @@ export default class PostService {
         select: {
           postId: true,
           title: true,
-          description:true,
-          tags:true,
-          createdAt:true,
+          description: true,
+          tags: true,
+          createdAt: true,
           postedByUserId: {
             select: {
               id: true,
@@ -105,8 +105,22 @@ export default class PostService {
   }
   async fetchAllPosts() {
     try {
-      const result = await this.prisma.Posts.findMany({});
-
+      const result = await this.prisma.Posts.findMany({
+        select: {
+          postId: true,
+          title: true,
+          description: true,
+          tags: true,
+          createdAt: true,
+          postedByUserId: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+        },
+      });
       console.log(result);
       return { response: result };
     } catch (error) {
