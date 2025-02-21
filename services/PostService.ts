@@ -78,6 +78,9 @@ export default class PostService {
             },
           },
         },
+        orderBy: {
+          createdAt: 'desc'
+        },
       });
 
       console.log("find records by id is ,", result);
@@ -150,6 +153,9 @@ export default class PostService {
               email: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: 'desc'
         },
       });
       console.log(result);
